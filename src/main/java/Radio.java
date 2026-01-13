@@ -1,9 +1,22 @@
 public class Radio {
-    private int currentStation;
-    private int currentVolume;
+    private int currentStation = 0;
+    private int currentVolume = 0;
+    private int stationCount = 10;
+
+    public Radio() {
+        this.stationCount = 10;
+    }
+
+    public Radio(int stationCount) {
+        if (stationCount > 0) {
+            this.stationCount = stationCount;
+        } else {
+            this.stationCount = 10;
+        }
+    }
 
     public void next() {
-        if (currentStation != 9) {
+        if (currentStation < stationCount - 1) {
             currentStation++;
         } else {
             currentStation = 0;
@@ -11,10 +24,10 @@ public class Radio {
     }
 
     public void prev() {
-        if (currentStation != 0) {
+        if (currentStation > 0) {
             currentStation--;
         } else {
-            currentStation = 9;
+            currentStation = stationCount - 1;
         }
     }
 
@@ -22,28 +35,35 @@ public class Radio {
         return currentStation;
     }
 
-    public void setCurrentStation(int currentStation) {
-        if (currentStation < 0) {
-            return;
+    public void setCurrentStation(int station) {
+        if (station >= 0 && station < stationCount) {
+            this.currentStation = station;
         }
-        if (currentStation > 9) {
-            return;
-
-        }
-        this.currentStation = currentStation;
     }
 
-    public int getCurrentVolume() {
+    public void volumeUp() {
+        if (currentVolume < 100) {
+            currentVolume++;
+        }
+    }
+
+    public void volumeDown() {
+        if (currentVolume > 0) {
+            currentVolume--;
+        }
+    }
+
+    public void setVolume(int volume) {
+        if (volume < 0) {
+            this.currentVolume = 0;
+        } else if (volume > 100) {
+            this.currentVolume = 100;
+        } else {
+            this.currentVolume = volume;
+        }
+    }
+
+    public int getVolume() {
         return currentVolume;
-    }
-
-    public void setCurrentVolume(int currentVolume) {
-        if (currentVolume < 0) {
-            return;
-        }
-        if (currentVolume > 100) {
-            return;
-        }
-        this.currentVolume = currentVolume;
     }
 }
