@@ -63,28 +63,47 @@ class RadioTest {
 
 
     @Test
-    void testSetVolume_invalid_low() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(50);
-        radio.setCurrentVolume(-1);
-        assertEquals(50, radio.getCurrentVolume());
+    public void testSwitchStationsCycle() {
+        Radio radio = new Radio(3); // 3 станции: 0,1,2
+
+        radio.setCurrentStation(2);
+        radio.next(); // должен стать 0
+        assertEquals(0, radio.getCurrentStation());
+
+        radio.setCurrentStation(0);
+        radio.prev(); // должен стать 2
+        assertEquals(2, radio.getCurrentStation());
     }
 
     @Test
-    void testSetVolume_invalid_high() {
+    public void testVolumeLimits() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(50);
-        radio.setCurrentVolume(150);
-        assertEquals(50, radio.getCurrentVolume());
+
+        radio.setVolume(150);
+        assertEquals(100, radio.getVolume());
+
+        radio.setVolume(-10);
+        assertEquals(0, radio.getVolume());
+
+        radio.setVolume(50);
+        assertEquals(50, radio.getVolume());
     }
 
     @Test
-    void testSetVolume_valid() {
+    public void testVolumeUpDownLimits() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(75);
-        assertEquals(75, radio.getCurrentVolume());
-    }
+        // Установим громкость на максимум
+        radio.setVolume(100);
+        radio.volumeUp();
+        assertEquals(100, radio.getVolume());
 
+        // Установка на минимум
+        radio.setVolume(0);
+        radio.volumeDown();
+        assertEquals(0, radio.getVolume());
+    }
 }
+
+
 
 
